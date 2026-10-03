@@ -62,12 +62,16 @@ jobs:
       - name: Set repository
         id: repository
         if: steps.run_type.outputs.run_type == 'new-repository'
-        run: echo "repository=$(python3 -m scripts.changed.repo)" >> $GITHUB_OUTPUT
+        run: |
+          repository=$(python3 -m scripts.changed.repo)
+          echo "repository=${repository}" >> $GITHUB_OUTPUT
 
       - name: Set category
         id: category
         if: steps.run_type.outputs.run_type == 'new-repository'
-        run: echo "category=$(python3 -m scripts.changed.category)" >> $GITHUB_OUTPUT
+        run: |
+          category=$(python3 -m scripts.changed.category)
+          echo "category=${category}" >> $GITHUB_OUTPUT
 
   owner:
     runs-on: ubuntu-latest
