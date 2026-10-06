@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   upload:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON((vars.CI_RUNNER_MODE == 'self-hosted' || vars.CI_RUNNER_MODE == 'k3s') && ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || (contains(fromJSON('["push","schedule","workflow_dispatch"]'), github.event_name) && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))) && (vars.CI_RUNNER_LABELS || '[]') || '["ubuntu-latest"]') }}
     name: Upload
     steps:
       - name: Checkout the repository
@@ -37,7 +37,7 @@ jobs:
           python-version: "3.x"
 
       - name: Install AWS CLI
-        run:  |
+        run: |
           pip3 install \
             --disable-pip-version-check \
             --ignore-installed \
