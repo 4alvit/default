@@ -39,13 +39,13 @@ jobs:
           HAS_RENAMED: ${{ contains(github.event.pull_request.labels.*.name, 'renamed-repositories') }}
         run: |
           if [ "$HAS_NEW_REPO" == "true" ]; then
-            echo "run_type=new-repository" >> $GITHUB_OUTPUT
+            echo "run_type=new-repository" >> "$GITHUB_OUTPUT"
           elif [ "$HAS_RENAMED" == "true" ]; then
-            echo "run_type=rename" >> $GITHUB_OUTPUT
+            echo "run_type=rename" >> "$GITHUB_OUTPUT"
           elif [ "$HAS_REMOVAL" == "true" ]; then
-            echo "run_type=removal" >> $GITHUB_OUTPUT
+            echo "run_type=removal" >> "$GITHUB_OUTPUT"
           else
-            echo "run_type=unknown" >> $GITHUB_OUTPUT
+            echo "run_type=unknown" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Check out repository
