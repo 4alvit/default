@@ -33,3 +33,6 @@ software maintained elsewhere. Keep reproduction details private until the
 maintainers and reporter have coordinated disclosure.
 
 Ordinary repository-list corrections and feature requests may use public issues.
+
+The [TLS runtime requirements](docs/TLS_RUNTIME.md) distinguish the verified
+Python client environments from operator-only upload integrations.
