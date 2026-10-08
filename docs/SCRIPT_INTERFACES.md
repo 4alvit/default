@@ -36,9 +36,8 @@ exits nonzero for missing identities or disallowed edits.
 `GITHUB_TOKEN` for GitHub API requests through aiogithubapi/aiohttp. They print
 their result and fail with an Actions error annotation when a check fails.
 The owner check additionally reads the PR author from `GITHUB_EVENT_PATH`.
-Its current legacy import of `scripts.remove_publishers` can rewrite catalog
-files; run it only in an isolated checkout. The releases check requires at least
-one release for the proposed repository.
+Importing the publisher constants does not rewrite catalog files. The releases
+check requires at least one release for the proposed repository.
 
 `scripts.check.existing` and `scripts.check.removed` read `REPOSITORY`, fetch the
 public `https://data-v2.hacs.xyz/` lists through Requests and fail if the repository
@@ -61,13 +60,14 @@ removes a repository from its category and updates `blacklist` and `removed`.
 The last two arguments are optional; removal type is required. The script may
 write a category before a later error. `bash scripts/remove_repository` prompts
 for these inputs; `bash scripts/remove_archived_repo owner/repository` supplies
-an archived-repository reason. Both legacy wrappers can mask a Python failure
-with exit zero, so inspect their output and Git diff instead of trusting the
-wrapper exit status. `scripts/add_repository` only prints `Not implemented`.
+an archived-repository reason. Both wrappers preserve the Python exit status
+and quote the script path, including when the checkout path contains spaces. Review their output and Git
+diff; a direct removal can still modify a file before a later failure.
+`scripts/add_repository` only prints `Not implemented`.
 
 `python3 scripts/remove_publishers.py` rewrites lists using its checked-in publisher
-list. Importing that module also executes the maintenance operation. Do not
-import it while inspecting a valuable working copy.
+list. Importing that module only loads its constants and definitions; list edits
+happen only when its CLI (or its `main()` function) is explicitly invoked.
 
 ## Operator-only uploads
 

@@ -55,4 +55,4 @@ versioned reusable software, add an explicit version and human-written release
 notes covering changes, upgrade impact and fixed project vulnerabilities.
 
 See [script interfaces](docs/SCRIPT_INTERFACES.md) before invoking maintenance
-commands: several rewrite catalog files, and not every wrapper propagates errors.
+commands: several intentionally rewrite catalog files.
