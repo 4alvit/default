@@ -9,3 +9,6 @@ If you want to publish your repositories as default in HACS have a look here:
 
 For vulnerabilities in this fork's scripts or automation, see the
 [security policy](SECURITY.md) and use its private reporting channel.
+
+See [dependency maintenance](docs/DEPENDENCY_LOCKS.md) for this fork's hash-locked
+Python tools and reproducible image inputs.
