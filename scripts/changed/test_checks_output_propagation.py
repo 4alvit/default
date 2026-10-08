@@ -165,6 +165,14 @@ class ChecksOutputPropagationTests(unittest.TestCase):
         self.assertIs(category.CURRENT, self.previous_current)
         self.assertIs(category.CHANGED, self.previous_changed)
 
+    def test_invalid_repository_cannot_publish_workflow_output(self):
+        for value in ("owner/repo\ncategory=integration", "owner/$(true)"):
+            with self.subTest(value=value):
+                self._write_categories({"integration": [value]})
+                exit_code, published = self._run(extract_run("Set repository"))
+                self.assertNotEqual(exit_code, 0)
+                self.assertEqual(published, "")
+
     def test_fail_before_echo_masks_detector_failure(self):
         self._write_categories({})
         for step_name, script in FAIL_BEFORE.items():
