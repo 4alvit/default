@@ -9,6 +9,10 @@ updates:
       interval: weekly
       time: "06:00"
     open-pull-requests-limit: 10
+    # 3.1.2 bundles js-yaml 4.1.0 (GHSA-mh29-5h37-fv8m). Allow later fixed releases.
+    ignore:
+      - dependency-name: "cardinalby/schema-validator-action"
+        versions: ["3.1.2"]
     groups:
       github-actions:
         applies-to: version-updates
