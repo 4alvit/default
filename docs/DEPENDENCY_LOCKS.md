@@ -8,7 +8,7 @@ The upload workflows use Python 3.12 and a separate AWS CLI lock so they do not
 change the script environment. AWS CLI is updated from 1.36.39 to 1.46.1.
 
 Each generated lock records its `uv pip compile` command in its opening comments.
-Regenerate with uv 0.12.7, review changes, and run the dependency CI jobs before
+Regenerate with uv 0.12.18, review changes, and run the dependency CI jobs before
 merging. The Python job installs and imports the actual dependencies and runs
 the existing input/output tests. The tools job checks the real AWS CLI and
 builds the maintenance image without credentials, uploads or cache purges.
