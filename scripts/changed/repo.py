@@ -1,4 +1,5 @@
 import json
+import re
 from scripts.changed.category import get_category
 
 DEFAULT = "/tmp/repositories/default"
@@ -20,7 +21,13 @@ def get_repo():
         print(f"Bad data {new}")
         exit(1)
 
-    return new.pop()
+    repository = new.pop()
+    if not isinstance(repository, str) or re.fullmatch(
+        r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?/[A-Za-z0-9._-]{1,100}",
+        repository,
+    ) is None or repository.split("/")[1] in {".", ".."}:
+        raise ValueError("Expected a GitHub owner/repository name")
+    return repository
 
 
 if __name__ == "__main__":
