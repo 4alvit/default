@@ -69,14 +69,14 @@ jobs:
         if: steps.run_type.outputs.run_type == 'new-repository'
         run: |
           repository=$(python3 -m scripts.changed.repo)
-          echo "repository=${repository}" >> $GITHUB_OUTPUT
+          printf 'repository=%s\n' "$repository" >> "$GITHUB_OUTPUT"
 
       - name: Set category
         id: category
         if: steps.run_type.outputs.run_type == 'new-repository'
         run: |
           category=$(python3 -m scripts.changed.category)
-          echo "category=${category}" >> $GITHUB_OUTPUT
+          printf 'category=%s\n' "$category" >> "$GITHUB_OUTPUT"
 
   owner:
     runs-on: ${{ fromJSON((vars.CI_RUNNER_MODE == 'self-hosted' || vars.CI_RUNNER_MODE == 'k3s') && ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || (contains(fromJSON('["push","schedule","workflow_dispatch"]'), github.event_name) && github.ref == format('refs/heads/{0}', github.event.repository.default_branch))) && (vars.CI_RUNNER_LABELS || '[]') || '["ubuntu-latest"]') }}
@@ -249,8 +249,10 @@ jobs:
           persist-credentials: false
 
       - name: Clone new addition
+        env:
+          REPOSITORY: ${{ needs.preflight.outputs.repository }}
         run: |
-          git clone --depth 1 "https://github.com/${{needs.preflight.outputs.repository}}" /tmp/repositories/addition
+          git clone --depth 1 -- "https://github.com/$REPOSITORY" /tmp/repositories/addition
 
       - name: Run hassfest
         run: |

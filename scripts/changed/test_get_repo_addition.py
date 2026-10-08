@@ -60,6 +60,18 @@ class GetRepoAdditionTests(unittest.TestCase):
         self._write_categories({"integration": ["fixture/integration-added"]})
         self.assertEqual(self._call(), "fixture/integration-added")
 
+    def test_invalid_repository_names_are_rejected(self):
+        for value in (
+            "owner/repo\ncategory=integration", "owner/$(true)",
+            "owner/repo`true`", "owner/repo?query=x", "owner/../repo",
+            "owner/..", "-owner/repo", "owner-/repo", "owner/repo name",
+            "https://github.com/owner/repo", 123, None,
+        ):
+            with self.subTest(value=value):
+                self._write_categories({"integration": [value]})
+                with self.assertRaises(ValueError):
+                    self._call()
+
     def test_no_addition_exits_1(self):
         self._write_categories({})
         with self.assertRaises(SystemExit) as caught:
