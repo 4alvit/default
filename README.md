@@ -12,3 +12,6 @@ For vulnerabilities in this fork's scripts or automation, see the
 
 See [dependency maintenance](docs/DEPENDENCY_LOCKS.md) for this fork's hash-locked
 Python tools and reproducible image inputs.
+
+For changes to this fork, see [Contributing](CONTRIBUTING.md), including local
+tests and source identity, and the [script interface reference](docs/SCRIPT_INTERFACES.md).

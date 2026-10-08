@@ -1,6 +1,4 @@
 import json
-import os
-from glob import glob
 from scripts.helpers.integration_path import get_integration_path
 
 
