@@ -1,0 +1,52 @@
+name: Dependency checks
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  python:
+    name: Locked Python dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed # v2.22.0
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version-file: .python-version
+      - name: Install and verify script dependencies
+        run: |
+          bash scripts/setup
+          python3 -m pip check
+          python3 -c 'import aiogithubapi, requests'
+          python3 -m unittest discover -s scripts -p 'test_*.py' -v
+  tools:
+    name: Locked upload and image tools
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: step-security/harden-runner@351661ca32ac09a36dc5ee2d536e3128f2a3c8ed # v2.22.0
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Verify AWS CLI without credentials or uploads
+        run: |
+          python3 -m pip install --require-hashes --only-binary=:all: -r .github/requirements-awscli.txt
+          python3 -m pip check
+          aws --version
+      - name: Build and inspect the maintenance image
+        run: |
+          docker build -f tools/Dockerfile --tag repository-tools-check .
+          docker run --rm repository-tools-check sh -c 'git --version && jq --version && bash --version'

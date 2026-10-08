@@ -1,6 +1,3 @@
-import json
-import os
-from glob import glob
 from scripts.helpers.manifest import get_manifest
 
 

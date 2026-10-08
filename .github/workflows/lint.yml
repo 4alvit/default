@@ -82,6 +82,13 @@ jobs:
         with:
           python-version-file: ".python-version"
 
+      - name: Install pinned Python linter
+        run: |
+          python3 -m pip install --require-hashes --only-binary=:all: -r .github/requirements-lint.txt
+
+      - name: Check Python errors
+        run: python3 -m ruff check --select E9,F scripts
+
       - name: Check lists
         run: python3 scripts/is_sorted.py
 

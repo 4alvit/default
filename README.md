@@ -6,3 +6,12 @@ If you want to publish your repositories as default in HACS have a look here:
 
 - https://hacs.xyz/docs/publish/start
 - https://hacs.xyz/docs/publish/include
+
+For vulnerabilities in this fork's scripts or automation, see the
+[security policy](SECURITY.md) and use its private reporting channel.
+
+See [dependency maintenance](docs/DEPENDENCY_LOCKS.md) for this fork's hash-locked
+Python tools and reproducible image inputs.
+
+For changes to this fork, see [Contributing](CONTRIBUTING.md), including local
+tests and source identity, and the [script interface reference](docs/SCRIPT_INTERFACES.md).

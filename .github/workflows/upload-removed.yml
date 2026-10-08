@@ -39,14 +39,11 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         id: python
         with:
-          python-version: "3.x"
+          python-version: "3.12"
 
       - name: Install AWS CLI
         run: |
-          pip3 install \
-            --disable-pip-version-check \
-            --ignore-installed \
-            awscli==1.36.39
+          python3 -m pip install --disable-pip-version-check --require-hashes --only-binary=:all: -r .github/requirements-awscli.txt
 
       - name: Handle the removed file
         run: |
